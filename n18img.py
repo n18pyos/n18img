@@ -39,12 +39,8 @@ def start_module(args, pipe=False):
 			tmp = tmp + i + "\n"
 		arg.file = tmp
 	img = Image.open(arg.file)
-	if arg.output:
+	if not arg.output:
 		output = arg.output
-	elif arg.random_merge and not arg.output:
-		output = arg.file + ".png"
-	else:
-		output = arg.file + ".n18img"
 	if arg.raw_print:
 		for i in array_img(img):
 			for _i in i:
@@ -89,8 +85,16 @@ def start_module(args, pipe=False):
 						kimg[u][o][j] = int(val3) + smesh
 			print("row ", u, " is finished")
 		fimg = Image.fromarray(kimg)
-		output = output + "." + arg.extension
+		if arg.output:
+			output = arg.output + "." + arg.extension
+		else:
+			output = arg.file + "." + arg.extension
 		fimg.save(output)
-		os.rename(output, output[:output.rfind(".")])
+		if not arg.output:
+			fn = output[:output.rfind(".")]
+			fn = fn + ".n18img"
+		else:
+			fn = output[:output.rfind(".")]
+		os.rename(output, fn)
 	if arg.show:
 		img.show()
