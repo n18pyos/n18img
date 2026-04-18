@@ -21,6 +21,8 @@ def start_module(args, pipe=False):
 	pars.add_argument("-rm", "--random-merge", help="добавляет рандомное смешивание", type=str, nargs=3)
 	pars.add_argument("-ii", "--image-info", help="выводит информацию о системе", action="store_true")
 	pars.add_argument("-pp", "--python-portable", action="store_true")
+	pars.add_argument("-s", "--show", help="открывает изображение", action="store_true")
+	pars.add_argument("-ext", "--extension", type=str, default="png", help="указывает расширение файла")
 	try:
 		arg = pars.parse_args(argt)
 	except SystemExit:
@@ -87,6 +89,8 @@ def start_module(args, pipe=False):
 						kimg[u][o][j] = int(val3) + smesh
 			print("row ", u, " is finished")
 		fimg = Image.fromarray(kimg)
-		output = output + ".png"
+		output = output + "." + arg.extension
 		fimg.save(output)
 		os.rename(output, output[:output.rfind(".")])
+	if arg.show:
+		img.show()
