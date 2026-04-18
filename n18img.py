@@ -39,8 +39,10 @@ def start_module(args, pipe=False):
 			tmp = tmp + i + "\n"
 		arg.file = tmp
 	img = Image.open(arg.file)
-	if not arg.output:
+	if arg.output:
 		output = arg.output
+	else:
+		output = arg.file + ".n18img"
 	if arg.raw_print:
 		for i in array_img(img):
 			for _i in i:
